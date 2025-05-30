@@ -2,7 +2,7 @@
 session_start();
 include('baza.php');
 
-// Poizvedba za pridobitev ocen po učiteljih
+// Popravljena poizvedba – temelji izključno na tabeli `ocene`
 $sql = "
     SELECT 
         profesorji.ime AS ime_profesorja,
@@ -12,8 +12,7 @@ $sql = "
         COUNT(ocene.id) AS stevilo_ocen
     FROM ocene
     INNER JOIN profesorji ON ocene.id_p = profesorji.id
-    INNER JOIN predmeti_profesorji ON profesorji.id = predmeti_profesorji.id_prof
-    INNER JOIN predmet ON predmeti_profesorji.id_predmet = predmet.id
+    INNER JOIN predmet ON ocene.id_predmet = predmet.id
     GROUP BY profesorji.id, predmet.id
 ";
 
@@ -104,7 +103,7 @@ if (!$result) {
             <td><?= htmlspecialchars($row['ime_profesorja'] . ' ' . $row['priimek_profesorja']) ?></td>
             <td><?= htmlspecialchars($row['ime_predmeta']) ?></td>
             <td><?= number_format($row['povprecna_ocena'], 2) ?></td>
-            <td><?= $row['stevilo_ocen'] ?></td>
+            <td><?= (int)$row['stevilo_ocen'] ?></td>
           </tr>
         <?php endwhile; ?>
       </tbody>

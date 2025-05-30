@@ -11,19 +11,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $g = mysqli_real_escape_string($link, $_POST['geslo']);
         $g2 = sha1($g);
 
-        $query = "INSERT INTO uporabniki (ime, priimek, email, geslo) 
-                  VALUES ('$i', '$p', '$m', '$g2')";
-        $result = mysqli_query($link, $query);
+        // Preveri, ali e-pošta že obstaja
+        $checkQuery = "SELECT id FROM uporabniki WHERE email = '$m' LIMIT 1";
+        $checkResult = mysqli_query($link, $checkQuery);
 
-        if ($result) {
-            $sporocilo = "Uporabnik uspešno registriran.";
+        if (mysqli_num_rows($checkResult) > 0) {
+            $sporocilo = "E-poštni naslov je že registriran.";
         } else {
-            $sporocilo = "Napaka pri registraciji: " . mysqli_error($link);
+            // Vstavi novega uporabnika
+            $query = "INSERT INTO uporabniki (ime, priimek, email, geslo) 
+                      VALUES ('$i', '$p', '$m', '$g2')";
+            $result = mysqli_query($link, $query);
+
+            if ($result) {
+                $sporocilo = "Uporabnik uspešno registriran.";
+            } else {
+                $sporocilo = "Napaka pri registraciji: " . mysqli_error($link);
+            }
         }
     } else {
         $sporocilo = "Prosim, izpolnite vsa polja.";
     }
 }
+
 ?>
 
 <!DOCTYPE html>

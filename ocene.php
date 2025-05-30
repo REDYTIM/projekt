@@ -1,7 +1,7 @@
 <?php
 include 'baza.php';
 
-$izbran_profesor = isset($_POST['teacher']) ? (int)$_POST['teacher'] : 0;
+$izbran_profesor = isset($_GET['teacher']) ? (int)$_GET['teacher'] : 0;
 ?>
 <!DOCTYPE html>
 <html lang="sl">
@@ -17,11 +17,11 @@ $izbran_profesor = isset($_POST['teacher']) ? (int)$_POST['teacher'] : 0;
     .form-group {
       margin-bottom: 15px;
     }
-	textarea {
-  width: 100%;
-  height: 100px;
-  resize: none;
-}
+    textarea {
+      width: 100%;
+      height: 100px;
+      resize: none;
+    }
     select, input, textarea {
       width: 100%;
       padding: 8px;
@@ -53,7 +53,8 @@ $izbran_profesor = isset($_POST['teacher']) ? (int)$_POST['teacher'] : 0;
   <div class="container">
     <h2>Ocenite učitelja</h2>
 
-    <form method="POST">
+    <!-- Učitelj izbirnik -->
+    <form method="GET">
       <div class="form-group">
         <label for="teacher">Izberite učitelja:</label>
         <select name="teacher" id="teacher" required onchange="this.form.submit()">
@@ -69,9 +70,10 @@ $izbran_profesor = isset($_POST['teacher']) ? (int)$_POST['teacher'] : 0;
       </div>
     </form>
 
+    <!-- Obrazec za ocenjevanje -->
     <?php if ($izbran_profesor): ?>
     <form method="POST" action="shranjevanje_ocene.php">
-      <input type="hidden" name="teacher" value="<?php echo $izbran_profesor; ?>">
+      <input type="hidden" name="teacher" value="<?php echo htmlspecialchars($izbran_profesor); ?>">
 
       <div class="form-group">
         <label for="subject">Izberite predmet:</label>
@@ -93,22 +95,29 @@ $izbran_profesor = isset($_POST['teacher']) ? (int)$_POST['teacher'] : 0;
       </div>
 
       <div class="form-group">
-  <label for="ocena_priljubljenost">Ocena priljubljenost (1–5):</label>
-  <input type="number" name="ocena_priljubljenost" id="ocena_priljubljenost" min="1" max="5" required>
-</div>
-<div class="form-group">
-  <label for="ocena_dnaloge">Ocena domače naloge (1–5):</label>
-  <input type="number" name="ocena_dnaloge" id="ocena_dnaloge" min="1" max="5" required>
-</div>
-<div class="form-group">
-  <label for="ocena_vaje">Ocena vaje (1–5):</label>
-  <input type="number" name="ocena_vaje" id="ocena_vaje" min="1" max="5" required>
-</div>
-<div class="form-group">
-  <label for="ocena_razlage">Ocena razlage (1–5):</label>
-  <input type="number" name="ocena_razlage" id="ocena_razlage" min="1" max="5" required>
-</div>
+        <label for="ocena_priljubljenost">Ocena priljubljenost (1–5):</label>
+        <input type="number" name="ocena_priljubljenost" id="ocena_priljubljenost" min="1" max="5" required>
+      </div>
 
+      <div class="form-group">
+        <label for="ocena_dnaloge">Ocena domače naloge (1–5):</label>
+        <input type="number" name="ocena_dnaloge" id="ocena_dnaloge" min="1" max="5" required>
+      </div>
+
+      <div class="form-group">
+        <label for="ocena_vaje">Ocena vaje (1–5):</label>
+        <input type="number" name="ocena_vaje" id="ocena_vaje" min="1" max="5" required>
+      </div>
+
+      <div class="form-group">
+        <label for="ocena_razlage">Ocena razlage (1–5):</label>
+        <input type="number" name="ocena_razlage" id="ocena_razlage" min="1" max="5" required>
+      </div>
+
+      <div class="form-group">
+        <label for="comment">Komentar (neobvezno):</label>
+        <textarea name="comment" id="comment" placeholder="Dodajte komentar ..."></textarea>
+      </div>
 
       <div>
         <button type="submit" class="btn">Oddaj oceno</button>

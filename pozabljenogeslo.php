@@ -3,8 +3,8 @@ include_once 'baza.php'; // povezava z bazo
 $sporocilo = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $email = trim($_POST['username']);
-    $novo_geslo = trim($_POST['new-password']);
+    $email = ($_POST['username']);
+    $novo_geslo = ($_POST['new-password']);
     $hashirano = sha1($novo_geslo);
 
     $stmt = mysqli_prepare($link, "SELECT id FROM uporabniki WHERE email = ?");
@@ -146,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <button type="submit" class="btn">Ponastavi geslo</button>
       </div>
       <div class="back-link">
-        <p><a href="login.php">Nazaj na prijavo</a></p>
+        <p><a href="index.php">Nazaj na prijavo</a></p>
       </div>
     </form>
   </div>
