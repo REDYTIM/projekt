@@ -114,10 +114,7 @@ $izbran_profesor = isset($_GET['teacher']) ? (int)$_GET['teacher'] : 0;
         <input type="number" name="ocena_razlage" id="ocena_razlage" min="1" max="5" required>
       </div>
 
-      <div class="form-group">
-        <label for="comment">Komentar (neobvezno):</label>
-        <textarea name="comment" id="comment" placeholder="Dodajte komentar ..."></textarea>
-      </div>
+
 
       <div>
         <button type="submit" class="btn">Oddaj oceno</button>

@@ -1,56 +1,68 @@
 <header class="page-header">
   <div class="navbar">
     <div class="logo">Ocenjevanje</div>
+
+    <!-- Gumb za toggle -->
+    <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+
     <nav>
-      <ul>
+      <ul class="nav-links">
         <li><a href="main.php">Domov</a></li>
-        <li><a href="ocene.php">ocenjevanje</a></li>
-		<li><a href="ocena.php">ocene</a></li>
+        <li><a href="ocene.php">Ocenjevanje</a></li>
+        <li><a href="ocena.php">Ocene</a></li>
         <li><a href="logout.php">Odjava</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
-<!-- Add some padding to the body so the content doesn't overlap with the fixed header -->
 <style>
-  /* Ensure the header stays at the top of the page */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
   .page-header {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%; /* Ensure the header spans the full width of the page */
+    width: 100%;
     background-color: #4c51bf;
     color: white;
-    z-index: 999; /* Ensure it stays on top of other content */
+    z-index: 999;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
   }
 
-  /* Navbar inside the header */
   .navbar {
-    max-width: 1200px; /* Maximum width for navbar */
-    width: 100%; /* Full width */
-    margin: 0 auto; /* Center navbar */
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 16px 40px; /* Using px for padding */
+    justify-content: space-between;
+    padding: 16px 24px;
   }
 
-  /* Logo in the navbar */
   .logo {
-    font-size: 24px; /* Font size in px */
+    font-size: 24px;
     font-weight: bold;
   }
 
-  /* Navigation menu in the navbar */
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 24px; /* Spacing between items in px */
+  .menu-toggle {
+    display: none;
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
   }
 
-  /* Links inside the navigation */
+  nav .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 24px;
+  }
+
   nav a {
     text-decoration: none;
     color: white;
@@ -58,14 +70,50 @@
     transition: color 0.3s;
   }
 
-  /* Hover effect for navigation links */
   nav a:hover {
     color: #c3dafe;
   }
 
-  /* Body styles */
   body {
-    margin-top: 80px; /* Add top margin to avoid content overlap with the fixed header (80px header height) */
+    margin-top: 80px; /* da vsebina ni pod fixed headerjem */
     font-family: Arial, sans-serif;
   }
+
+  /* 🔽 Responsive styling */
+  @media (max-width: 768px) {
+    .menu-toggle {
+      display: block;
+    }
+
+    nav .nav-links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background-color: #4c51bf;
+      width: 100%;
+      padding: 16px;
+    }
+
+    nav .nav-links.active {
+      display: flex;
+    }
+
+    nav .nav-links li {
+      margin: 10px 0;
+      text-align: center;
+    }
+  }
 </style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".nav-links");
+
+    toggle.addEventListener("click", function () {
+      nav.classList.toggle("active");
+    });
+  });
+</script>
