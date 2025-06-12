@@ -1,9 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="sl">
 <head>
-  <title>Test Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ocenjevanje Profesorjev - ERŠ Velenje</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #667eea, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin-top: 50px;
+    }
+
+    .register-container {
+      background-color: #fff;
+      padding: 40px 50px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .register-container h2 {
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .register-container p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+      background-color: #667eea;
+      color: #fff;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background-color: #5a67d8;
+    }
+  </style>
 </head>
 <body>
-  <h1>Website is working!</h1>
+
+  <div class="register-container">
+    <h2>Ocenjevanje Profesorjev</h2>
+    <p>Dobrodošli na strani za ocenjevanje profesorjev Elektro-računalniške šole Velenje. Vaše mnenje je pomembno!</p>
+    <a href="login.php" class="btn">Prijava</a>
+  </div>
+
 </body>
 </html>

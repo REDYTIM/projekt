@@ -146,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <button type="submit" class="btn">Ponastavi geslo</button>
       </div>
       <div class="back-link">
-        <p><a href="index.php">Nazaj na prijavo</a></p>
+        <p><a href="prijava.php">Nazaj na prijavo</a></p>
       </div>
     </form>
   </div>

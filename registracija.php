@@ -144,7 +144,7 @@
       
       <!-- Povezava do prijave -->
       <div class="back-to-login">
-        <p>Že imate račun? <a href="index.php">Prijavite se</a></p>
+        <p>Že imate račun? <a href="login.php">Prijavite se</a></p>
       </div>
     </form>
   </div>

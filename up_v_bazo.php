@@ -2,14 +2,15 @@
 require 'baza.php'; // Povezava z bazo
 
 $sporocilo = '';
+$preusmeritev = false;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['ime'], $_POST['priimek'], $_POST['email'], $_POST['geslo'])) {
         $i = mysqli_real_escape_string($link, $_POST['ime']);
-        $p = mysqli_real_escape_string($link, $_POST['priimek']);
+        $p = mysqli_real_escape_string($link, $_POST['priimek']); // mysql real escape string zaradi varnosti pred napadalci
         $m = mysqli_real_escape_string($link, $_POST['email']);
         $g = mysqli_real_escape_string($link, $_POST['geslo']);
-        $g2 = sha1($g);
+        $g2 = substr(sha1($g), 0, 40); 
 
         // Preveri, ali e-pošta že obstaja
         $checkQuery = "SELECT id FROM uporabniki WHERE email = '$m' LIMIT 1";
@@ -24,7 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $result = mysqli_query($link, $query);
 
             if ($result) {
-                $sporocilo = "Uporabnik uspešno registriran.";
+                $sporocilo = "Uporabnik uspešno registriran. Preusmerjam na prijavo ...";
+                $preusmeritev = true;
             } else {
                 $sporocilo = "Napaka pri registraciji: " . mysqli_error($link);
             }
@@ -33,7 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $sporocilo = "Prosim, izpolnite vsa polja.";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -42,6 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Registracija</title>
+  <?php if ($preusmeritev): ?>
+    <meta http-equiv="refresh" content="3;url=login.php">
+  <?php endif; ?>
   <style>
     * {
       box-sizing: border-box;
@@ -52,10 +56,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     body {
       background: linear-gradient(to right, #667eea, #764ba2);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100%;
+      display: flex; //nastavi celotno stran zato ker je body na način flex kar umogoča lažjo poravnavo otrok
+      justify-content: center; //vodoravna poravnavo na sredino zto ker je display felx 
+      align-items: center; //navpična poravnava na sredino isto ko pa pr prejšnji vrstici
+      min-height: 100vh; //vh zaradi lažjega prilagajanja velikosti naprave
       padding: 40px;
     }
 
@@ -79,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     .form-group label {
-      display: block;
+      display: block; // element v novi vrstici zavzame celotno širino in višino ki sm mu jo nastavu 
       margin-bottom: 8px;
       font-weight: bold;
       color: #444;
@@ -155,9 +159,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       </div>
       <button type="submit" class="btn">Registracija</button>
     </form>
+
     <?php if (!empty($sporocilo)): ?>
-      <div class="message"><?= $sporocilo ?></div>
+      <div class="message"><?= htmlspecialchars($sporocilo) ?></div>
     <?php endif; ?>
+
     <div class="back-link">
       <p>Že imate račun? <a href="login.php">Prijavite se</a></p>
     </div>

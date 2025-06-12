@@ -81,6 +81,20 @@ if (!$result) {
     tr:hover {
       background-color: #eef;
     }
+    @media (max-width: 600px) {
+  table {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+}
+
   </style>
 </head>
 <body>

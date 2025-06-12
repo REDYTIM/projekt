@@ -5,35 +5,25 @@ include_once 'seja.php';
 $napaka = '';
 
 if (isset($_POST['sub'])) {
-    $m = $_POST['email'];
-    $g = $_POST['geslo'];
+    
+    $email = $_POST['email'];
+    $geslo = $_POST['geslo'];
+    $q = mysqli_query($link, "SELECT id, ime, je_admin, email, geslo FROM uporabniki WHERE email='$email'");
 
-    // Preveri, če uporabnik obstaja
-    $sql = "SELECT * FROM uporabniki WHERE email = ?";
-    $stmt = mysqli_prepare($link, $sql);
-    mysqli_stmt_bind_param($stmt, 's', $m);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
+    if ($r = mysqli_fetch_assoc($q)) {
+        if (substr(sha1($geslo), 0, 40) == $r['geslo']) {
+            $_SESSION['id'] = $r['id'];
+            $_SESSION['ime'] = $r['ime'];
+            $_SESSION['je_admin'] = $r['je_admin'];
 
-    if (mysqli_num_rows($result) === 1) {
-        $row = mysqli_fetch_assoc($result);
-
-        // SHA1 gesla in vzemi samo prvih 20 znakov, ker tako so shranjeni v bazi
-        $hashed_password = substr(sha1($g), 0, 40);
-
-        if ($hashed_password === $row['geslo']) {
-            $_SESSION['ime'] = $row['ime'];
-            $_SESSION['priimek'] = $row['priimek'];
-            $_SESSION['id'] = $row['id'];
-            $_SESSION['log'] = TRUE;
-
+            $_SESSION['log'] = true;
             header("Location: ocene.php");
-            exit();
+            exit;
         } else {
             $napaka = "Napačno geslo.";
         }
     } else {
-        $napaka = "Uporabnik s tem emailom ne obstaja.";
+        $napaka = "Uporabnik ne obstaja.";
     }
 }
 ?>
@@ -204,7 +194,7 @@ body {
   <div class="login-container">
     <h2>Pozdravljeni</h2>
     <?php if (!empty($napaka)) echo "<div class='error-message'>$napaka</div>"; ?>
-    <form method="post" action="index.php">
+    <form method="post" action="login.php">
       <div class="form-group">
         <label for="mail">Email</label>
         <input type="email" id="email" name="email" placeholder="Vnesi email" required />

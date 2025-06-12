@@ -1,3 +1,113 @@
+<!DOCTYPE html>
+<?php
+include_once 'baza.php';
+include_once 'seja.php';
+?>
+<html lang="sl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Responsive Navigacija</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin-top: 80px; /* prostor za fiksni header */
+      font-family: Arial, sans-serif;
+    }
+
+    .page-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #4c51bf;
+      color: white;
+      z-index: 999;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .navbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 28px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    nav .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #c3dafe;
+    }
+
+    /* Responsive styling */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      nav .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background-color: #4c51bf;
+        width: 100%;
+        padding: 16px;
+        max-height: 80vh;     /*  Omeji višino menija */
+        overflow-y: auto;     /*  Omogoči scroll */
+      }
+
+      nav .nav-links.active {
+        display: flex;
+      }
+
+      nav .nav-links li {
+        margin: 10px 0;
+        text-align: center;
+      }
+
+      /* Zakleni ozadje, ko je meni odprt */
+      body.no-scroll {
+        overflow: hidden;
+      }
+    }
+  </style>
+</head>
+<body>
+
 <header class="page-header">
   <div class="navbar">
     <div class="logo">Ocenjevanje</div>
@@ -7,105 +117,18 @@
 
     <nav>
       <ul class="nav-links">
-        <li><a href="main.php">Domov</a></li>
-        <li><a href="ocene.php">Ocenjevanje</a></li>
-        <li><a href="ocena.php">Ocene</a></li>
-        <li><a href="logout.php">Odjava</a></li>
-      </ul>
+  <li><a href="main.php">Domov</a></li>
+  <li><a href="ocene.php">Ocenjevanje</a></li>
+  <li><a href="ocena.php">Ocene</a></li>
+  <?php if (isset($_SESSION['je_admin']) && $_SESSION['je_admin'] == 1): ?>
+    <li><a href="admin.php">Admin nadzor</a></li>
+  <?php endif; ?>
+  <li><a href="logout.php">Odjava</a></li>
+</ul>
+
     </nav>
   </div>
 </header>
-
-<style>
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  .page-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #4c51bf;
-    color: white;
-    z-index: 999;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-  }
-
-  .navbar {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 24px;
-  }
-
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-  }
-
-  .menu-toggle {
-    display: none;
-    font-size: 28px;
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-  }
-
-  nav .nav-links {
-    display: flex;
-    list-style: none;
-    gap: 24px;
-  }
-
-  nav a {
-    text-decoration: none;
-    color: white;
-    font-weight: 500;
-    transition: color 0.3s;
-  }
-
-  nav a:hover {
-    color: #c3dafe;
-  }
-
-  body {
-    margin-top: 80px; /* da vsebina ni pod fixed headerjem */
-    font-family: Arial, sans-serif;
-  }
-
-  /* 🔽 Responsive styling */
-  @media (max-width: 768px) {
-    .menu-toggle {
-      display: block;
-    }
-
-    nav .nav-links {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      top: 60px;
-      right: 0;
-      background-color: #4c51bf;
-      width: 100%;
-      padding: 16px;
-    }
-
-    nav .nav-links.active {
-      display: flex;
-    }
-
-    nav .nav-links li {
-      margin: 10px 0;
-      text-align: center;
-    }
-  }
-</style>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -114,6 +137,10 @@
 
     toggle.addEventListener("click", function () {
       nav.classList.toggle("active");
+      document.body.classList.toggle("no-scroll");
     });
   });
 </script>
+
+</body>
+</html>
